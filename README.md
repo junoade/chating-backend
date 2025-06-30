@@ -19,3 +19,24 @@ Chating Example Cods with Springboot 3, Java17, Vue3
 
 
 ## 기술 스택
+
+
+
+## 환경설정
+
+properties/env.properties 작성
+
+```properties
+# Server
+SERVER_PORT=
+
+# DB
+DB_URL=jdbc:
+DB_USERNAME=
+DB_PASSWORD=
+DB_DRIVER=
+
+# Redis
+REDIS_HOST=
+REDIS_PORT=
+```
