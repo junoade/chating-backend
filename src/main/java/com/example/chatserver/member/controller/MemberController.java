@@ -26,13 +26,13 @@ public class MemberController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> memberCreate(@RequestBody MemberSaveReqDto memberSaveReqDto) {
         Member member = memberService.create(memberSaveReqDto);
         return new ResponseEntity<>(member.getId(), HttpStatus.CREATED);
     }
 
-    @PostMapping("/doLogin")
+    @PostMapping("/login")
     public ResponseEntity<?> doLogin(@RequestBody MemberLoginReqDto memberLoginReqDto) {
         Member member = memberService.login(memberLoginReqDto);
         // access-token 발행

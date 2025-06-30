@@ -20,50 +20,50 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    @PostMapping("/room/group/create")
+    @PostMapping("/group")
     public ResponseEntity<?> createGroupRoom(@RequestParam("roomName") String roomName) {
         chatService.createGroupRoom(roomName);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/room/group/list")
+    @GetMapping("/groups")
     public ResponseEntity<?> getGroupChatRooms() {
         List<ChatRoomListResDto> list = chatService.getGroupChatRooms();
         return new ResponseEntity<>(list, HttpStatus.OK);
 
     }
 
-    @PostMapping("/room/group/join/{roomId}")
+    @PostMapping("/group/{roomId}/join")
     public ResponseEntity<?> joinGroupChatRoom(@PathVariable("roomId") Long roomId) {
         chatService.joinGroupChat(roomId);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/room/group/history/{roomId}")
+    @GetMapping("/group/{roomId}/history")
     public ResponseEntity<?> getChatHistory(@PathVariable("roomId") Long roomId) {
         List<ChatMessageDto> histories = chatService.getChatHistory(roomId);
         return new ResponseEntity<>(histories, HttpStatus.OK);
     }
 
-    @PostMapping("/room/read/{roomId}")
+    @PostMapping("/{roomId}/read")
     public ResponseEntity<?> readChatRoom(@PathVariable("roomId") Long roomId) {
         chatService.messageRead(roomId);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/room/mychat")
+    @GetMapping("/personal-rooms")
     public ResponseEntity<?> getMyChat() {
         List<MyChatListResDto> dtos = chatService.getMyChatRooms();
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @DeleteMapping("/room/group/leave/{roomId}")
+    @DeleteMapping("/group/{roomId}")
     public ResponseEntity<?> leaveGroupChatRoom(@PathVariable("roomId") Long roomId) {
         chatService.leaveGroupChatRoom(roomId);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/room/private/create")
+    @PostMapping("/private")
     public ResponseEntity<?> getOrCreatePrivateChatRoom(@RequestParam("otherMemberId") Long otherMemberId) {
         Long roomId = chatService.getOrCreatePrivateRoom(otherMemberId);
         PrivateChatRoomResDto dto = PrivateChatRoomResDto.builder()
