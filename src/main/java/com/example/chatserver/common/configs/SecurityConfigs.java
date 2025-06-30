@@ -33,8 +33,8 @@ public class SecurityConfigs {
                 .httpBasic(AbstractHttpConfigurer::disable) // HTTP Basic
                 // 특정 url 패턴에 대해서는 Authentication 객체를 요구하지 않도록 예외 등록 (인증처리 제외)
                 .authorizeHttpRequests(a -> a.requestMatchers(
-                                "/member/create"
-                                , "/member/doLogin"
+                                "/member"
+                                , "/member/login"
                                 , "/connect/**"
                                 , "/swagger-ui/**"
                                 , "/v3/api-docs/**")
