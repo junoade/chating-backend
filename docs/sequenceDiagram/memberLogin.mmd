@@ -1,0 +1,34 @@
+sequenceDiagram
+    participant Controller
+    participant MemberService
+    participant MemberRepository
+    participant DB
+    participant PasswordEncoder
+
+    Controller->>MemberService: login(memberLoginReqDto)
+    activate MemberService
+
+    MemberService->>MemberRepository: findByEmail(email)
+    activate MemberRepository
+
+    MemberRepository->>DB: SELECT * FROM member WHERE email=?
+    activate DB
+
+    DB-->>MemberRepository: Member
+    deactivate DB
+
+    alt 이메일 존재
+        MemberRepository-->>MemberService: Member
+    else 이메일 미존재
+        MemberRepository-->>MemberService: throw EntityNotFoundException
+    end
+    deactivate MemberRepository
+
+
+
+    MemberService->>PasswordEncoder: matches(rawPassword, encodedPassword)
+    alt 비밀번호 일치
+        MemberService-->>Controller: Member
+    else 비밀번호 불일치
+        MemberService-->>Controller: throw IllegalArgumentException
+    end

@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant Controller
+    participant MemberService
+    participant MemberRepository
+    participant DB
+
+    Controller->>MemberService: findAll()
+    activate MemberService
+
+    MemberService->>MemberRepository: findAll()
+    activate MemberRepository
+
+    MemberRepository->>DB: SELECT * FROM member
+    activate DB
+
+    DB-->>MemberRepository: List<Member>
+    deactivate DB
+
+    MemberRepository-->>MemberService: List<Member>
+    MemberService->>MemberService: List<MemberListResDto>로 변환
+
+    MemberService-->>Controller: List<MemberListResDto>
+    deactivate MemberService
