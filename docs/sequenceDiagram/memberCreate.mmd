@@ -1,0 +1,33 @@
+sequenceDiagram
+    participant Controller
+    participant MemberService
+    participant MemberRepository
+    participant DB
+
+    Controller->>MemberService: create(memberSaveReqDto)
+    activate MemberService
+
+    MemberService->>MemberRepository: findByEmail(email)
+    activate MemberRepository
+
+    MemberRepository->> DB : SELECT member * FROM
+    activate DB
+    DB-->MemberRepository : Result
+    deactivate DB
+
+    MemberRepository-->>MemberService: Optional<Member>
+    deactivate MemberRepository
+    alt 이메일 중복 없음
+        MemberService->>MemberRepository: save(newMember)
+        activate MemberRepository
+        MemberRepository->>DB: INSERT INTO member ...
+        activate DB
+        DB-->>MemberRepository: 저장된 Member
+        deactivate DB
+        MemberRepository-->>MemberService: Member
+        deactivate MemberRepository
+        MemberService-->>Controller: Member
+    else 이메일 중복
+        MemberService-->>Controller: throw IllegalArgumentException
+    end
+    deactivate MemberService
